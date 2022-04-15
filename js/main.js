@@ -2,7 +2,10 @@ var jogo = {},
     tecla = {
         W: '87',
         S: '83',
-        D: '68'
+        D: '68',
+        R: '82',
+        SPACE: '32',
+        A: '65'
     };
 
 var velocidade = 5;
@@ -23,6 +26,10 @@ var somGameover = document.getElementById("somGameover");
 var somPerdido = document.getElementById("somPerdido");
 var somResgate = document.getElementById("somResgate");
 
+var posicaoAmigo = 0;
+
+var playSong = true;
+
 jogo.pressionou = [];
 
 function start() {
@@ -32,7 +39,7 @@ function start() {
     $(".fundo").append("<div class='inimigo1 anima2'></div>");
     $(".fundo").append("<div class='inimigo2'></div>");
     $(".fundo").append("<div class='amigo anima3'></div>");
-
+    posicaoAmigo = parseInt($(".amigo").css("top"))
     $(document).keydown(function (e) {
         jogo.pressionou[e.which] = true;
     });
@@ -42,8 +49,11 @@ function start() {
     });
 
     jogo.timer = setInterval(loop, 20);
-    musica.addEventListener("ended", function () { musica.currentTime = 0; musica.play(); }, false);
-    musica.play();
+
+    if (playSong) {
+        musica.addEventListener("ended", function () { musica.currentTime = 0; musica.play(); }, false);
+        musica.play();
+    }
 }
 
 
@@ -64,6 +74,7 @@ function moveFundo() {
 
 function movejogador() {
     let topo = parseInt($(".jogador").css("top"));
+    let lado = parseInt($(".jogador").css("left"));
 
     if (jogo.pressionou[tecla.W]) {
         $(".jogador").css("top", topo - 10);
@@ -76,19 +87,40 @@ function movejogador() {
     if (jogo.pressionou[tecla.S]) {
         $(".jogador").css("top", topo + 10);
 
-        if (topo >= parseInt($(".amigo").css("top"))) {
+        if (topo >= posicaoAmigo) {
             $(".jogador").css("top", topo - 10);
         }
     }
 
+    if (jogo.pressionou[tecla.A]) {
+        $(".jogador").css("left", lado - 10);
+        
+        if (lado <= 0) {
+            $(".jogador").css("left", lado + 10);
+        }
+    }
+
     if (jogo.pressionou[tecla.D]) {
+        $(".jogador").css("left", lado + 10);
+        
+        if (lado >= 775) {
+            $(".jogador").css("left", lado - 10);
+        }
+    }
+
+    if (jogo.pressionou[tecla.SPACE]) {
         disparo();
     }
 
+    if (jogo.pressionou[tecla.R]) {
+        gameOver();
+    }
+
     if (colision(".jogador", ".amigo")) {
-        reposicionaClass("amigo", 'anima3');
+        reposicionaClass("amigo", 'anima3', 2000);
         somResgate.play();
         salvos++;
+        pontos += 100;
     }
 }
 
@@ -102,9 +134,11 @@ function moveinimigo1() {
         explosao(".inimigo1");
         inimigo1Start();
         pontos += 30;
+        energiaAtual--;
     }
 
     if (posicaoX <= 0) {
+        explosao(".inimigo1");
         inimigo1Start();
         energiaAtual--;
     }
@@ -134,7 +168,7 @@ function moveAmigo() {
 
     if (colision(".amigo", ".inimigo2")) {
         explosao(".amigo", 'explosao2', ' anima4');
-        reposicionaClass("amigo", 'anima3');
+        reposicionaClass("amigo", 'anima3', 2000);
         inimigo2Start();
         perdidos++;
         energiaAtual--;
@@ -183,7 +217,7 @@ function disparo() {
         if (colision(".disparo", ".inimigo1")) {
             explosao(".inimigo1");
             disparoStart(tempoDisparo);
-            reposicionaClass("inimigo1", 'anima2');
+            reposicionaClass("inimigo1", 'anima2', 3000);
             pontos += 100;
             velocidade = velocidade + 0.3;
         }
@@ -191,7 +225,7 @@ function disparo() {
         if (colision(".disparo", ".inimigo2")) {
             explosao(".inimigo2");
             disparoStart(tempoDisparo);
-            reposicionaClass("inimigo2");
+            reposicionaClass("inimigo2", '', 5000);
             pontos += 50;
         }
 
@@ -247,9 +281,9 @@ function explosao(elemento, explosao = 'explosao1', extraClass = '') {
     }
 }
 
-function reposicionaClass(elemento, extraClass = '') {
+function reposicionaClass(elemento, extraClass = '', tempo = 3000) {
     $('.' + elemento).remove();
-    var tempoColisao4 = window.setInterval(reposiciona4, 3000);
+    var tempoColisao4 = window.setInterval(reposiciona4, tempo);
 
     function reposiciona4() {
         window.clearInterval(tempoColisao4);
@@ -289,7 +323,9 @@ function energia() {
 function gameOver() {
     fimdejogo = true;
     musica.pause();
-    somGameover.play();
+    if (playSong) {
+        somGameover.play();
+    }
 
     window.clearInterval(jogo.timer);
     jogo.timer = null;
@@ -301,16 +337,23 @@ function gameOver() {
 
     $(".fundo").append("<div class='fim'></div>");
 
-    $(".fim").html("<h1> Game Over </h1><p>Sua pontuação foi: <b>" + pontos + "</b></p>" + "<div class='reinicia'>Jogar Novamente</div>");
+    $(".fim").html("<h1> Game Over </h1><p>Sua pontuação foi: <b>" + pontos + "</b></p>" + "<div class='reinicia'>Jogar Novamente</div><div class='sound-div'><span class='material-icons'>volume_up</span><input class='range-sound range' value='100' type='range' min='0' max='100'/><output id='rangevalue2' data-range-value>100</output>");
 }
 
 function reiniciaJogo() {
     somGameover.pause();
     $(".fim").remove();
+    setDados();
     start();
+}
+
+function setDados() {
     fimdejogo = false;
     energiaAtual = 3;
-}
+    perdidos = 0;
+    salvos = 0;
+    pontos = 0;
+};
 
 $(".start-game").on("click", function () {
     start();
@@ -318,4 +361,41 @@ $(".start-game").on("click", function () {
 
 $(document).on('click', '.reinicia', function () {
     reiniciaJogo();
+})
+
+$(document).on('click', '.sound', function () {
+    $(".sound span").html("volume_" + (playSong ? "off" : "up"));
+    playSong = (playSong ? false : true);
+    if (playSong) {
+        startMusics();
+    } else {
+        stopMusics();
+    }
+})
+
+function stopMusics() {
+    musica.pause();
+    somGameover.pause();
+}
+
+function startMusics() {
+    if (fimdejogo) {
+        somGameover.play();
+    } else {
+        musica.addEventListener("ended", function () { musica.currentTime = 0; musica.play(); }, false);
+        musica.play();
+    }
+}
+
+$(document).on("input", '.range-sound', function () {
+    let valor = $(this).val() / 100;
+
+    $("[data-range-value]").text($(this).val());
+
+    musica.volume = valor;
+    somGameover.volume = valor;
+    somDisparo.volume = valor;
+    somExplosao.volume = valor;
+    somPerdido.volume = valor;
+    somResgate.volume = valor;
 })

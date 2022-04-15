@@ -7,6 +7,8 @@
         <title>Jogo da nave</title>
         <link rel="stylesheet" href="css/style.css">
         <link rel="shortcut icon" href="imgs/icon.png" type="image/x-icon">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+            rel="stylesheet">
     </head>
     <body>
         <div class="container">
@@ -14,12 +16,24 @@
 
                 <div class="inicio">
                     <h1>Resgate</h1>
-                    <p class="texto-inicial">Precione <b>W</b> para movimentar o helicoptero para cima, <b>S</b>
-                        para movimenta-lo para baixo e <b>D</b> para atirar.</p>
+                    <p class="texto-inicial">Precione <b>W</b> para movimentar o
+                        helicoptero para cima, <b>S</b>
+                        para movimenta-lo para baixo e <b>D</b> para atirar.
+                        Para finalizar aperte <b>R</b>.</p>
                     <div class="start-game">Clique aqui para começar</div>
+                    <div class="sound-div">
+                        <span class="material-icons">volume_up</span>
+                        <input class="range-sound range" value="100" type="range" min="0" max="100"/>
+                        <output id="rangevalue2" data-range-value>100</output>
+                    </div>
                 </div>
                 <div class="placar"></div>
                 <div class='energia'></div>
+                <div class='sound'>
+                    <span class="material-icons">
+                        volume_up
+                    </span>
+                </div>
             </div>
         </div>
 

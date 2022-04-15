@@ -77,7 +77,7 @@ body {
 
 .inicio {
     width: 350px;
-    height: 200px;
+    height: 260px;
     background-color: #FFF;
     margin-left: auto;
     margin-right: auto;
@@ -218,9 +218,6 @@ h2 {
     top: 7px;
 }
 
-
-h3 {}
-
 .fim {
     width: 350px;
     height: 200px;
@@ -248,13 +245,12 @@ h3 {}
 
 .start-game {
     cursor: pointer;
-    font-size: 15px;
+    font-size: 25px;
     transition: 0.5s;
 }
 
 .start-game:hover {
     color: var(--mainColor);
-    font-size: 17px;
 }
 
 .reinicia {
@@ -264,8 +260,127 @@ h3 {}
     color: #603A03;
 }
 
-
 .reinicia:hover {
     cursor: pointer;
     font-size: 23px;
+}
+
+.sound {
+    width: 140px;
+    height: 38px;
+    position: absolute;
+    left: 890px;
+    top: 7px;
+    cursor: pointer;
+}
+
+.sound-div {
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.range {
+    cursor: pointer;
+    -webkit-appearance: none;
+    vertical-align: middle;
+    outline: none;
+    border: none;
+    padding: 0;
+    background: none;
+}
+
+.range::-webkit-slider-runnable-track {
+    background-color: #d7dbdd;
+    height: 6px;
+    border-radius: 3px;
+    border: 1px solid transparent;
+}
+
+.range[disabled]::-webkit-slider-runnable-track {
+    border: 1px solid #d7dbdd;
+    background-color: transparent;
+    opacity: 0.4;
+}
+
+.range::-moz-range-track {
+    background-color: #d7dbdd;
+    height: 6px;
+    border-radius: 3px;
+    border: none;
+}
+
+.range::-ms-track {
+    color: transparent;
+    border: none;
+    background: none;
+    height: 6px;
+}
+
+.range::-ms-fill-lower {
+    background-color: #d7dbdd;
+    border-radius: 3px;
+}
+
+.range::-ms-fill-upper {
+    background-color: #d7dbdd;
+    border-radius: 3px;
+}
+
+.range::-ms-tooltip {
+    display: none;
+    /* display and visibility only */
+}
+
+.range::-moz-range-thumb {
+    border-radius: 20px;
+    height: 18px;
+    width: 18px;
+    border: none;
+    background: none;
+    background-color: #9da6b4;
+}
+
+.range:active::-moz-range-thumb {
+    outline: none;
+}
+
+.range::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    border-radius: 100%;
+    background-color: #606670;
+    height: 18px;
+    width: 18px;
+    margin-top: -7px;
+}
+
+.range[disabled]::-webkit-slider-thumb {
+    background-color: transparent;
+    border: 1px solid #d7dbdd;
+}
+
+.range:active::-webkit-slider-thumb {
+    outline: none;
+}
+
+.range::-ms-thumb {
+    border-radius: 100%;
+    background-color: #606670;
+    height: 18px;
+    width: 18px;
+    border: none;
+}
+
+.range:active::-ms-thumb {
+    border: none;
+}
+  
+output {
+  border: 1px solid #2b3039;
+  color: #aaa;
+  font-family: 'Lato', sans-serif;
+  font-size: 12px;
+  padding: .4em .6em;
+  border-radius: 3px;
 }
