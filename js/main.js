@@ -214,9 +214,6 @@ function inimigo1Start() {
     $(".inimigo1").css("top", posicaoY);
 }
 
-$(".inicio").on("click", function () {
-    start();
-})
 
 function colision(element1, element2) {
     let colision = ($(element1).collision($(element2)));
@@ -304,12 +301,8 @@ function gameOver() {
 
     $(".fundo").append("<div class='fim'></div>");
 
-    $(".fim").html("<h1> Game Over </h1><p>Sua pontuação foi: " + pontos + "</p>" + "<div id='reinicia'><h3>Jogar Novamente</h3></div>");
+    $(".fim").html("<h1> Game Over </h1><p>Sua pontuação foi: <b>" + pontos + "</b></p>" + "<div class='reinicia'>Jogar Novamente</div>");
 }
-
-$(document).on('click', '#reinicia', function () {
-    reiniciaJogo();
-})
 
 function reiniciaJogo() {
     somGameover.pause();
@@ -318,3 +311,11 @@ function reiniciaJogo() {
     fimdejogo = false;
     energiaAtual = 3;
 }
+
+$(".start-game").on("click", function () {
+    start();
+})
+
+$(document).on('click', '.reinicia', function () {
+    reiniciaJogo();
+})
