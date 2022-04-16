@@ -9,6 +9,7 @@ var jogo = {},
     };
 
 var velocidade = 5;
+var velocidadeCaminhao = 2;
 var posicaoY = parseInt(Math.random() * 334);
 var podeAtirar = true;
 var fimdejogo = false;
@@ -94,7 +95,7 @@ function movejogador() {
 
     if (jogo.pressionou[tecla.A]) {
         $(".jogador").css("left", lado - 10);
-        
+
         if (lado <= 0) {
             $(".jogador").css("left", lado + 10);
         }
@@ -145,9 +146,8 @@ function moveinimigo1() {
 }
 
 function moveinimigo2() {
-    let velocidade = 2;
     let posicaoX = parseInt($(".inimigo2").css("left"));
-    $(".inimigo2").css("left", posicaoX - velocidade);
+    $(".inimigo2").css("left", posicaoX - velocidadeCaminhao);
 
     if (posicaoX <= 0) {
         inimigo2Start();
@@ -227,6 +227,7 @@ function disparo() {
             disparoStart(tempoDisparo);
             reposicionaClass("inimigo2", '', 5000);
             pontos += 50;
+            velocidadeCaminhao = velocidadeCaminhao + 0.5;
         }
 
         if (posicaoX > 900) {
@@ -353,6 +354,8 @@ function setDados() {
     perdidos = 0;
     salvos = 0;
     pontos = 0;
+    velocidade = 0;
+    velocidadeCaminhao = 0;
 };
 
 $(".start-game").on("click", function () {
