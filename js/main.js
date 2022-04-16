@@ -354,8 +354,8 @@ function setDados() {
     perdidos = 0;
     salvos = 0;
     pontos = 0;
-    velocidade = 0;
-    velocidadeCaminhao = 0;
+    velocidade = 5;
+    velocidadeCaminhao = 3;
 };
 
 $(".start-game").on("click", function () {
