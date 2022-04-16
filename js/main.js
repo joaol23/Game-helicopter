@@ -157,6 +157,7 @@ function moveinimigo2() {
         explosao(".inimigo2");
         amigoStart();
         inimigo2Start();
+        energiaAtual--;
         pontos += 30;
     }
 }
